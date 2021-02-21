@@ -1,6 +1,11 @@
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from django.forms import ModelForm
+
+from notifications.models import Notification as NotificationModel
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 User = get_user_model()
 
@@ -17,3 +22,14 @@ class UserCreationForm(admin_forms.UserCreationForm):
         error_messages = {
             "username": {"unique": _("This username has already been taken.")}
         }
+
+class NotificationCreationForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Create'))
+
+    class Meta:
+        model = NotificationModel
+        fields= ('actor_content_type', 'actor_object_id', 'recipient', 'verb', 'level', )

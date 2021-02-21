@@ -4,6 +4,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
+from django.views.generic.edit import FormView
+
+from notification_django_app.users.forms import NotificationCreationForm
 
 User = get_user_model()
 
@@ -43,3 +46,15 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class CreateNotificationView(FormView):
+    template_name = 'notification/create_notification.html'
+    form_class = NotificationCreationForm
+    success_url = '/inbox/notifications'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+create_notification_view = CreateNotificationView.as_view()
