@@ -32,4 +32,10 @@ class NotificationCreationForm(ModelForm):
 
     class Meta:
         model = NotificationModel
-        fields= ('actor_content_type', 'actor_object_id', 'recipient', 'verb', 'level', )
+        fields = ('actor_content_type', 'actor_object_id', 'recipient', 'verb', 'level', )
+        labels = {
+            'recipient': 'Recipient User',
+            'verb': 'Message',
+            'actor_content_type': 'Notification Creator',
+            'actor_object_id': 'Notification Creator ID'
+        }
